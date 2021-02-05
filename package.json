@@ -1,11 +1,10 @@
 {
-	"name": "vscode-drawio",
+	"name": "training",
 	"private": true,
-	"displayName": "Draw.io Integration",
-	"description": "This unofficial extension integrates Draw.io into VS Code.",
-	"version": "999.0.0-alpha",
-	"license": "GPL-3.0",
-	"publisher": "hediet",
+	"displayName": "network training platform",
+	"description": "This is model training tool set",
+	"version": "0.0.1",
+	"publisher": "zhejianglab",
 	"keywords": [
 		"drawio",
 		"diagram",
@@ -30,36 +29,37 @@
 	"activationEvents": [
 		"onCustomEditor:hediet.vscode-drawio",
 		"onCustomEditor:hediet.vscode-drawio-text",
-		"onCommand:hediet.vscode-drawio.newDiagram"
+		"onCommand:hediet.vscode-drawio.newDiagram",
+		"onCommand:treeView-item.newproj",
+		"onCommand:treeView-item.import",
+		"onLanguage:${drawio}",
+		"onView:treeView-item",
+		"*"
 	],
 	"repository": {
 		"url": "https://github.com/hediet/vscode-drawio.git"
 	},
 	"main": "./dist/extension/index",
 	"contributes": {
-		"languages": [
-			{
-				"id": "drawio",
-				"extensions": [
-					".drawio",
-					".dio",
-					".dio.svg",
-					".drawio.svg",
-					".drawio.png",
-					".dio.png"
-				],
-				"aliases": [
-					"Draw.io",
-					"drawio"
-				]
-			}
-		],
-		"customEditors": [
-			{
+		"languages": [{
+			"id": "drawio",
+			"extensions": [
+				".drawio",
+				".dio",
+				".dio.svg",
+				".drawio.svg",
+				".drawio.png",
+				".dio.png"
+			],
+			"aliases": [
+				"Draw.io",
+				"drawio"
+			]
+		}],
+		"customEditors": [{
 				"viewType": "hediet.vscode-drawio",
 				"displayName": "Draw.io (Binary)",
-				"selector": [
-					{
+				"selector": [{
 						"filenamePattern": "*.drawio.png"
 					},
 					{
@@ -71,8 +71,7 @@
 			{
 				"viewType": "hediet.vscode-drawio-text",
 				"displayName": "Draw.io",
-				"selector": [
-					{
+				"selector": [{
 						"filenamePattern": "*.drawio"
 					},
 					{
@@ -88,8 +87,7 @@
 				"priority": "default"
 			}
 		],
-		"commands": [
-			{
+		"commands": [{
 				"command": "hediet.vscode-drawio.convert",
 				"title": "Draw.io: Convert To..."
 			},
@@ -121,15 +119,33 @@
 			{
 				"command": "hediet.vscode-drawio.linkFileWithSelectedNode",
 				"title": "Draw.io: Link File With Selected Node In Active Diagram"
-			}
-		],
-		"keybindings": [
+			},
 			{
-				"command": "hediet.vscode-drawio.linkCodeWithSelectedNode",
-				"key": "shift+F3",
-				"when": "!findWidgetVisible"
+				"command": "treeView-item.newproj",
+				"title": "创建新的项目",
+				"icon": "src/resources/project.png"
+			},
+			{
+				"command": "treeView-item.import",
+				"title": "导入",
+				"icon": "src/resources/import.png"
 			}
 		],
+		"views": {
+			"explorer": [{
+				"id": "treeView-item",
+				"name": "treeView-item"
+			}]
+		},
+		"viewsWelcome": [{
+			"view": "treeView-item",
+			"contents": "欢迎使用达尔文IDE模型转换器!\n创建新的项目或者加载已有项目\n[创建新项目](command:treeView-item.newproj)\n[加载已有项目](command:treeView.proj_load)"
+		}],
+		"keybindings": [{
+			"command": "hediet.vscode-drawio.linkCodeWithSelectedNode",
+			"key": "shift+F3",
+			"when": "!findWidgetVisible"
+		}],
 		"configuration": {
 			"title": "Draw.io Integration",
 			"properties": {
@@ -146,8 +162,7 @@
 					"description": "When activated, selecting a node will navigate to an associated code section."
 				},
 				"hediet.vscode-drawio.local-storage": {
-					"anyOf": [
-						{
+					"anyOf": [{
 							"type": "object"
 						},
 						{
@@ -217,8 +232,7 @@
 								"description": "The name of the library in the shape overview."
 							}
 						},
-						"anyOf": [
-							{
+						"anyOf": [{
 								"type": "object",
 								"properties": {
 									"url": {
@@ -258,17 +272,15 @@
 				"hediet.vscode-drawio.plugins": {
 					"type": "array",
 					"items": {
-						"anyOf": [
-							{
-								"type": "object",
-								"properties": {
-									"file": {
-										"type": "string",
-										"description": "The file path to the library. Must be absolute. You can use ${workspaceFolder}."
-									}
+						"anyOf": [{
+							"type": "object",
+							"properties": {
+								"file": {
+									"type": "string",
+									"description": "The file path to the library. Must be absolute. You can use ${workspaceFolder}."
 								}
 							}
-						]
+						}]
 					},
 					"default": [],
 					"title": "Plugins",
@@ -315,13 +327,11 @@
 			}
 		},
 		"menus": {
-			"explorer/context": [
-				{
-					"when": "hediet.vscode-drawio.active",
-					"command": "hediet.vscode-drawio.linkFileWithSelectedNode",
-					"group": "Drawio"
-				}
-			]
+			"explorer/context": [{
+				"when": "hediet.vscode-drawio.active",
+				"command": "hediet.vscode-drawio.linkFileWithSelectedNode",
+				"group": "Drawio"
+			}]
 		}
 	},
 	"scripts": {
