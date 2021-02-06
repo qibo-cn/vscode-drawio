@@ -8,7 +8,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { projectCreate } from "./projectCreate";
 
-// log.setLevel("info");// "silent"
+log.setLevel(0);// "silent"
 
 if (process.env.DEV === "1") {
 	new MobxConsoleLogger(mobx);
@@ -46,13 +46,29 @@ function darwinTraining(context: vscode.ExtensionContext) {
 		if (currentPanel) {
 			currentPanel.reveal(columnToShowIn);
 		} else {
-			currentPanel = vscode.window.createWebviewPanel("darwin2web", "training", vscode.ViewColumn.One, { localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath))], enableScripts: true, retainContextWhenHidden: true });
+			currentPanel = vscode.window.createWebviewPanel("darwin2web", "trainings", vscode.ViewColumn.One, { localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath))], enableScripts: true, retainContextWhenHidden: true });
 			// 主界面由electron 应用启动
 			currentPanel.webview.html = projectCreate();
+			var projectSavedDir = '';
 			currentPanel.webview.onDidReceiveMessage(function (msg) {
 				console.log("Receive message: " + msg);
 				let data = JSON.parse(msg);
 				log.info(data);
+				if (data.projectSaveDirSelect === true) {
+					const projectSaveDiroptions: vscode.OpenDialogOptions = {
+						canSelectMany: false,
+						openLabel: 'Select',
+						canSelectFiles: false,
+						canSelectFolders: true
+					};
+					vscode.window.showOpenDialog(projectSaveDiroptions).then(fileUri => {
+						if (fileUri && fileUri[0]) {
+							log.info('Selected file: ' + fileUri[0].fsPath);
+							projectSavedDir = fileUri[0].fsPath;
+						}
+					});
+				}
+				log.info(projectSavedDir);
 				if (data.project_info) {
 					// 接收到webview 项目创建向导的消息，创建新的项目
 					console.log("receive project create info");
@@ -67,6 +83,17 @@ function darwinTraining(context: vscode.ExtensionContext) {
 						[new TreeItemNode("训练数据", []), new TreeItemNode("测试数据", []),
 						new TreeItemNode("测试数据标签", [])]), new TreeItemNode("ANN模型", [])]));
 					treeview.data = inMemTreeViewStruct;
+					// TODO 写入项目信息
+					let projectInfo = {
+						"proj_info": proj_desc_info,
+						"trainData": trainData,
+						"testData": testData,
+						"dataLabel": dataLabel,
+						"model_path": model_file_path,
+						"darwinlang_file_paths": darwinlang_file_paths,
+						"darwinlang_bin_paths": darwinlang_bin_paths
+					};
+					createTemplateProject(projectSavedDir, proj_desc_info.project_name, JSON.stringify(projectInfo));
 					treeview.refresh();
 				}
 			})
@@ -117,12 +144,41 @@ function darwinTraining(context: vscode.ExtensionContext) {
 	vscode.commands.executeCommand("training");
 }
 export function activate(context: vscode.ExtensionContext) {
-	log.log("darwin");
 	context.subscriptions.push(new Extension(context));
 	darwinTraining(context);
 
 };
 
-
+function createTemplateProject(dir: string, projectName: string, projectConfig: string) {
+	fs.mkdir(path.join(dir + '/' + projectName), (error) => {
+		log.info(path.join(dir + '/' + projectName));
+		if (error) {
+			log.error(error);
+		} else {
+			fs.writeFile(path.join(dir + '/' + projectName + '/package.json'), projectConfig, (error) => {
+				log.info(path.join(dir + '/' + projectName + '/package.json'));
+				if (error) {
+					log.error(error);
+				} else {
+					log.info('project create success');
+				}
+			})
+			fs.mkdir(path.join(dir + '/' + projectName + '/model'), (error) => {
+				log.info(path.join(dir + '/' + projectName + '/model'));
+				if (error) {
+					log.error(error);
+				} else {
+				}
+			});
+			fs.mkdir(path.join(dir + '/' + projectName + '/resource'), (error) => {
+				log.info(path.join(dir + '/' + projectName + '/resource'));
+				if (error) {
+					log.error(error);
+				} else {
+				}
+			});
+		}
+	});
+}
 
 export function deactivate() { }

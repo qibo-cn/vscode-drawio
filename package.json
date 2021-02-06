@@ -128,13 +128,20 @@
 			},
 			{
 				"command": "treeView-item.newproj",
-				"title": "创建新的项目",
-				"icon": "src/resources/project.png"
+				"title": "创建新的项目"
 			},
 			{
 				"command": "treeView-item.import",
 				"title": "导入",
 				"icon": "src/resources/import.png"
+			},
+			{
+				"command": "treeView.proj_save",
+				"title": "项目保存"
+			},
+			{
+				"command": "treeView.proj_load",
+				"title": "项目加载"
 			}
 		],
 		"views": {
@@ -146,7 +153,7 @@
 		},
 		"viewsWelcome": [{
 			"view": "treeView-item",
-			"contents": "欢迎使用达尔文IDE模型转换器!\n创建新的项目或者加载已有项目\n[创建新项目](command:treeView-item.newproj)\n[加载已有项目]"
+			"contents": "欢迎使用达尔文IDE模型转换器!\n创建新的项目或者加载已有项目\n[创建新项目](command:treeView-item.newproj)\n[加载已有项目](command:treeView-item.proj_load)"
 		}],
 		"keybindings": [{
 			"command": "hediet.vscode-drawio.linkCodeWithSelectedNode",
@@ -332,6 +339,13 @@
 					"description": "The theme to use for the Draw.io editor. Use \"automatic\" to automatically choose a Draw.io theme that matches your current VS Code theme."
 				}
 			}
+		},
+		"viewsContainers": {
+			"activitybar": [{
+				"id": "treeView",
+				"title": "导航栏",
+				"icon": "src/resources/dep.png"
+			}]
 		},
 		"menus": {
 			"explorer/context": [{
