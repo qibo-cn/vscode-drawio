@@ -30,6 +30,8 @@
 		"onCustomEditor:hediet.vscode-drawio",
 		"onCustomEditor:hediet.vscode-drawio-text",
 		"onCommand:hediet.vscode-drawio.newDiagram",
+
+		"onWebviewPanel:darwin2web",
 		"onCommand:treeView-item.newproj",
 		"onCommand:treeView-item.import",
 		"onLanguage:${drawio}",
@@ -88,6 +90,10 @@
 			}
 		],
 		"commands": [{
+				"command": "training",
+				"title": "darwin: training"
+			},
+			{
 				"command": "hediet.vscode-drawio.convert",
 				"title": "Draw.io: Convert To..."
 			},
@@ -134,12 +140,13 @@
 		"views": {
 			"explorer": [{
 				"id": "treeView-item",
-				"name": "treeView-item"
+				"name": "treeView-item",
+				"when": ""
 			}]
 		},
 		"viewsWelcome": [{
 			"view": "treeView-item",
-			"contents": "欢迎使用达尔文IDE模型转换器!\n创建新的项目或者加载已有项目\n[创建新项目](command:treeView-item.newproj)\n[加载已有项目](command:treeView.proj_load)"
+			"contents": "欢迎使用达尔文IDE模型转换器!\n创建新的项目或者加载已有项目\n[创建新项目](command:treeView-item.newproj)\n[加载已有项目]"
 		}],
 		"keybindings": [{
 			"command": "hediet.vscode-drawio.linkCodeWithSelectedNode",

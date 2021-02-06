@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html style="height: 100%;width: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <title>模型转换器</title>
+</head>
+
+<body class="dark-mode" style="height: 100%;width: 100%;overflow: hidden;">
+
+    <!-- 按钮触发模态框 -->
+    <button id="modal_dialog" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
+        style="display: none;">
+        创建新的项目
+    </button>
+    <button id="modal_dialog_projrefac" class="btn" data-toggle="modal" data-target="#myModalProjRefact"
+        style="display: none;">
+        修改项目属性
+    </button>
+
+    </button>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        style="background-color: #333;">
+        <div class="modal-dialog" style="background-color: #333;">
+            <div class="modal-content" style="background-color: #333;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                        style="color: antiquewhite;">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        项目创建向导
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="project_info_form">
+                        <div class="form-group">
+                            <label for="project_name">项目名称</label>
+                            <input type="text" class="form-control" id="project_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="select_type">选择项目类别</label>
+                            <select class="form-control" id="select_type">
+                                <option>图像分类</option>
+                                <option>语音识别</option>
+                                <option>目标检测</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="python_type">选择python版本</label>
+                            <select class="form-control" id="python_type">
+                                <option>python3.6x</option>
+                                <option>python3.7x</option>
+                                <option>python3.8x</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ann_lib_type">模型使用的神经网络库</label>
+                            <select class="form-control" id="ann_lib_type">
+                                <option>Keras(Tensorflow backended)</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="dismiss">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="create">创建
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!--项目属性修改-->
+    <div class="modal fade" id="myModalProjRefact" tabindex="-1" role="dialog" aria-labelledby="myModalLabelProjRefact"
+        aria-hidden="true" style="background-color: #333;">
+        <div class="modal-dialog" style="background-color: #333;">
+            <div class="modal-content" style="background-color: #333;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                        style="color: antiquewhite;">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabelProjRefact">
+                        项目属性修改
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="project_info_form_projrefac">
+                        <div class="form-group">
+                            <label for="project_name_projrefac">项目名称</label>
+                            <input type="text" class="form-control" id="project_name_projrefac">
+                        </div>
+                        <div class="form-group">
+                            <label for="select_type_refac">选择项目类别</label>
+                            <select class="form-control" id="select_type_refac">
+                                <option>图像分类</option>
+                                <option>语音识别</option>
+                                <option>目标检测</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="python_type_projrefac">选择python版本</label>
+                            <select class="form-control" id="python_type_projrefac">
+                                <option>python3.6x</option>
+                                <option>python3.7x</option>
+                                <option>python3.8x</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ann_lib_type_projrefac">模型使用的神经网络库</label>
+                            <select class="form-control" id="ann_lib_type_projrefac">
+                                <option>Keras(Tensorflow backended)</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="dismiss_projrefac">取消
+                    </button>
+                    <button type="button" class="btn btn-primary" id="create_projrefac">确认
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+</body>
+<style>
+    .editor-sidenav {
+        background-color: #333;
+    }
+
+    body {
+        padding: 25px;
+        background-color: black;
+        color: white;
+        font-size: 25px;
+    }
+
+    .dark-mode {
+        background-color: rgb(61, 57, 57);
+        color: white;
+    }
+
+    @font-face {
+        font-family: 'Material Icons';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v7/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
+    }
+
+    .material-icons {
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        text-transform: none;
+        display: inline-block;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .resizable {
+        resize: both;
+        overflow: scroll;
+        border: 1px solid black;
+    }
+
+    .dropdown-content {
+        width: max-content !important;
+        height: auto !important;
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+
+    const vscode = acquireVsCodeApi();
+    $(document).ready(function () {
+        $("#create").on("click", function () {
+            console.log("创建xxx");
+            var project_name = $("#project_name").val();
+            var project_type = $("#select_type").val();
+            var python_type = $("#python_type").val();
+            var ann_lib_type = $("#ann_lib_type").val();
+            // 发送到extension
+            vscode.postMessage(JSON.stringify({
+                "project_info": {
+                    "project_name": project_name, "project_type": project_type,
+                    "python_type": python_type, "ann_lib_type": ann_lib_type
+                }
+            }));
+            $("#dismiss").click();
+        });
+        $("#dismiss").on("click", function () {
+            console.log("取消创建");
+        });
+
+        $("#create_projrefac").on("click", function () {
+            console.log("修改项目属性");
+            var proj_name = $("#project_name_projrefac").val();
+            var proj_type = $("#select_type_refac").val();
+            var python_type = $("#python_type_projrefac").val();
+            var ann_lib_type = $("#ann_lib_type_projrefac").val();
+
+            // 发送到extension
+            vscode.postMessage(JSON.stringify({
+                "project_refac_info": {
+                    "project_name": proj_name, "project_type": proj_type, "python_type": python_type, "ann_lib_type": ann_lib_type
+                }
+            }));
+            $("#dismiss_projrefac").click();
+        });
+
+        $("#dismiss_projrefac").on("click", function () {
+            console.log("取消修改项目属性");
+        });
+
+        // 接收从extension 的消息
+        window.addEventListener('message', (event) => {
+            const message = event.data; // JSON data from extension
+            console.log("从extension 接收到消息：xxxxxx:" + message.command);
+            if (message.command === "CreateNewProject") {
+                $("#modal_dialog").click();
+                console.log("web view, 创建新的项目");
+            } else if (message.command === "ProjectRefactor") {
+                console.log("web view, 项目属性修改");
+                $("#modal_dialog_projrefac").click();
+                var project_info = message.project_desc;
+                $("#project_name_projrefac").val(project_info.project_name);
+                $("#select_type_refac").val(project_info.project_type);
+                $("#python_type_projrefac").val(project_info.python_type);
+                $("#ann_lib_type_projrefac").val(project_info.ann_lib_type);
+            }
+        });
+    });
+    // const vscode = acquireVsCodeApi();
+    // $("#convertor_entrance").on("click",function(){
+    //   console.log("jump back to convertor page");
+    //   vscode.postMessage(JSON.stringify({"click":"convertor_page"}));
+    // });
+</script>

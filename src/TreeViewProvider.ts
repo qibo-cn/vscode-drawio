@@ -53,6 +53,13 @@ export class TreeItemNode extends TreeItem {
         return Uri.file(join(__filename, '..', "..", "src", "resources", ITEM_ICON_MAP.get(label) + ''));
     }
 }
+export function addSlfProj(label: string) {
+    ITEM_ICON_MAP.set(label, 'imgs/project.png');
+}
+
+export function addSlfFile(label: string) {
+    ITEM_ICON_MAP.set(label, "imgs/file.png");
+}
 
 
 export class TreeViewProvider implements TreeDataProvider<TreeItemNode>{
