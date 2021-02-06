@@ -1,11 +1,11 @@
 export function projectCreate() {
-    return `
+  return `
     <!DOCTYPE html>
     <html style="height: 100%;width: 100%;">
     
     <head>
       <meta charset="UTF-8">
-      <title>模型转换器</title>
+      <title>DarwinTraining</title>
     </head>
     <body class="dark-mode" style="height: 100%;width: 100%;overflow: hidden;">
     
@@ -56,6 +56,11 @@ export function projectCreate() {
                           <label for="ann_lib_type">模型使用的神经网络库</label>
                           <select class="form-control" id="ann_lib_type">
                             <option>Keras(Tensorflow backended)</option>
+                          </select>
+                        </div>
+                        <div class= "form-group">
+                        <label for="ann_lib_type">保存地址</label>
+                          <select class="form-control" id="ann_lib_type">
                           </select>
                         </div>
                     </form>
@@ -215,7 +220,7 @@ export function projectCreate() {
             // 接收从extension 的消息
             window.addEventListener('message', (event)=>{
                 const message = event.data; // JSON data from extension
-                console.log("从extension 接收到消息：xxxxxx:"+message.command);
+                console.log("从extension 接收到消息：:"+message.command);
                 if(message.command === "CreateNewProject"){
                   $("#modal_dialog").click();
                   console.log("web view, 创建新的项目");

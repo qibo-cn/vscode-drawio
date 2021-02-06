@@ -5,14 +5,14 @@ import { join } from 'path';
 
 
 export let ITEM_ICON_MAP = new Map<string, string>([
-    ['项目', 'imgs/project.png'],
-    ['数据', 'imgs/import_data.png'],
-    ['ANN模型', 'imgs/import_model.png'],
-    ['训练数据', "imgs/file.png"],
-    ['测试数据', "imgs/file.png"],
-    ['测试数据标签', "imgs/file.png"]
-    // ['转换与仿真',"imgs/simulate_run.png"],
-    // ['测试添加',"imgs/simulate_run.png"]
+    ['项目', 'project.png'],
+    ['数据', ''],
+    ['ANN模型', ''],
+    ['训练数据', ''],
+    ['测试数据', ''],
+    ['测试数据标签', '']
+    // ['转换与仿真',"image/simulate_run.png"],
+    // ['测试添加',"image/simulate_run.png"]
 ]);
 
 // 第一步：创建单项的节点(item)的类
@@ -40,25 +40,13 @@ export class TreeItemNode extends TreeItem {
             this.label,             // 目前这里我们只传递一个 label
         ]
     };
-
-    // iconPath： 为该项的图标因为我们是通过上面的 Map 获取的，所以我额外写了一个方法，放在下面
-    iconPath = TreeItemNode.getIconUriForLabel(this.label);
-
-    // __filename：当前文件的路径
-    // 重点讲解 Uri.file(join(__filename,'..', '..') 算是一种固定写法
-    // Uri.file(join(__filename,'..','assert', ITEM_ICON_MAP.get(label)+''));   写成这样图标出不来
-    // 所以小伙伴们就以下面这种写法编写
-    static getIconUriForLabel(label: string): Uri {
-        console.log("path:" + Uri.file(join(__filename, '..', "resources", ITEM_ICON_MAP.get(label) + '')).toString());
-        return Uri.file(join(__filename, '..', "..", "src", "resources", ITEM_ICON_MAP.get(label) + ''));
-    }
 }
 export function addSlfProj(label: string) {
-    ITEM_ICON_MAP.set(label, 'imgs/project.png');
+    ITEM_ICON_MAP.set(label, '');
 }
 
 export function addSlfFile(label: string) {
-    ITEM_ICON_MAP.set(label, "imgs/file.png");
+    ITEM_ICON_MAP.set(label, '');
 }
 
 
