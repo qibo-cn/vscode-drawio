@@ -60,11 +60,11 @@ export function projectCreate() {
                         </div>
                         <div class= "form-group">
 
-                        <button type= "button" id="projectSaveDirSelect" class="btn">
+                        <button type= "button" tyle = "saveprojectbuttion" id="projectSaveDirSelect" class="btn">
                         选择保存地址
                       </button>
                       <div class="form-group">
-                            <input type="text" class="form-control" id="projectDir">
+                            <span class="form-control" id="projectSaveDir" ></span>
                         </div>
                         </div>
                     </form>
@@ -137,7 +137,10 @@ export function projectCreate() {
     .editor-sidenav{
       background-color: #333;
     }
-    
+    .saveprojectbuttion {
+      font-size: 25px;
+      color: white;
+    }
     body {
       padding: 25px;
       background-color: black;
@@ -205,7 +208,6 @@ export function projectCreate() {
             $("#dismiss").on("click", function(){
                 console.log("取消创建");
             });
-    
             $("#create_projrefac").on("click", function(){
               console.log("修改项目属性");
               var proj_name = $("#project_name_projrefac").val();
@@ -227,11 +229,12 @@ export function projectCreate() {
             // 接收从extension 的消息
             window.addEventListener('message', (event)=>{
                 const message = event.data; // JSON data from extension
-                console.log("从extension 接收到消息：:"+message.command);
                 if(message.command === "CreateNewProject"){
+                  console.log("从extension 接收到消息：:"+message.command);
                   $("#modal_dialog").click();
                   console.log("web view, 创建新的项目");
                 }else if(message.command === "ProjectRefactor"){
+                  console.log("从extension 接收到消息：:"+message.command);
                   console.log("web view, 项目属性修改");
                   $("#modal_dialog_projrefac").click();
                   var project_info = message.project_desc;
@@ -239,6 +242,9 @@ export function projectCreate() {
                   $("#select_type_refac").val(project_info.project_type);
                   $("#python_type_projrefac").val(project_info.python_type);
                   $("#ann_lib_type_projrefac").val(project_info.ann_lib_type);
+                } else if (message.projectSaveDir) {
+                  console.log("从extension 接收到消息：:"+ message.projectSaveDir);
+                  $("#projectSaveDir").text(message.projectSaveDir).css("color","black");;
                 }
             });
         });
