@@ -344,7 +344,7 @@
 			"activitybar": [{
 				"id": "treeView",
 				"title": "导航栏",
-				"icon": "src/resources/dep.png"
+				"icon": "src/resources/training.png"
 			}]
 		},
 		"menus": {

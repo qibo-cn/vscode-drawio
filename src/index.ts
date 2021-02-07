@@ -8,7 +8,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { projectCreate } from "./projectCreate";
 
-log.setLevel(0);// "silent"
+log.setLevel(5);// "silent"
 
 if (process.env.DEV === "1") {
 	new MobxConsoleLogger(mobx);
