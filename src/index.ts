@@ -94,6 +94,11 @@ function darwinTraining(context: vscode.ExtensionContext) {
 						"darwinlang_bin_paths": darwinlang_bin_paths
 					};
 					createTemplateProject(projectSavedDir, proj_desc_info.project_name, JSON.stringify(projectInfo));
+					var createdProjectUri = vscode.Uri.file(projectSavedDir + '/' + proj_desc_info.project_name);
+					log.info(createdProjectUri);
+					log.info({ uri: createdProjectUri, name: "newProject" });
+					log.info(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0);
+					vscode.workspace.updateWorkspaceFolders(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, null, { uri: createdProjectUri, name: proj_desc_info.project_name });
 					treeview.refresh();
 				}
 			})
@@ -168,13 +173,18 @@ function createTemplateProject(dir: string, projectName: string, projectConfig: 
 				if (error) {
 					log.error(error);
 				} else {
+					// TODO: 
+					fs.writeFile(path.join(dir + '/' + projectName + '/model' + '/darwinlang.drawio'), '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>', (error) => {
+						if (error) {
+							log.error(error);
+						}
+					})
 				}
 			});
 			fs.mkdir(path.join(dir + '/' + projectName + '/resource'), (error) => {
 				log.info(path.join(dir + '/' + projectName + '/resource'));
 				if (error) {
 					log.error(error);
-				} else {
 				}
 			});
 		}
