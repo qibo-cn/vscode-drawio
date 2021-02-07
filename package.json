@@ -153,7 +153,7 @@
 		},
 		"viewsWelcome": [{
 			"view": "treeView-item",
-			"contents": "欢迎使用达尔文IDE模型转换器!\n创建新的项目或者加载已有项目\n[创建新项目](command:treeView-item.newproj)\n[加载已有项目]"
+			"contents": "欢迎使用达尔文IDE模型转换器!\n创建新的项目或者加载已有项目\n[创建新项目](command:treeView-item.newproj)\n[加载已有项目](command:treeView-item.proj_load)"
 		}],
 		"keybindings": [{
 			"command": "hediet.vscode-drawio.linkCodeWithSelectedNode",

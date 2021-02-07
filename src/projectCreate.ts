@@ -59,9 +59,13 @@ export function projectCreate() {
                           </select>
                         </div>
                         <div class= "form-group">
-                        <label for="ann_lib_type">保存地址</label>
-                          <select class="form-control" id="ann_lib_type">
-                          </select>
+
+                        <button type= "button" id="projectSaveDirSelect" class="btn">
+                        选择保存地址
+                      </button>
+                      <div class="form-group">
+                            <input type="text" class="form-control" id="projectDir">
+                        </div>
                         </div>
                     </form>
           </div>
@@ -179,10 +183,13 @@ export function projectCreate() {
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     
     <script>
-    
         const vscode = acquireVsCodeApi();
         $(document).ready(function(){
-            $("#create").on("click",function(){
+            $("#projectSaveDirSelect").on("click", function() {
+                console.log("select project save dir");
+                vscode.postMessage(JSON.stringify({"projectSaveDirSelect":true}));
+            });
+           $("#create").on("click",function(){
                 console.log("创建xxx");
                 var project_name = $("#project_name").val();
                 var project_type = $("#select_type").val();
