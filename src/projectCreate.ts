@@ -59,8 +59,8 @@ export function projectCreate() {
                           </select>
                         </div>
                         <div class= "form-group">
-
-                        <button type= "button" tyle = "saveprojectbuttion" id="projectSaveDirSelect" class="btn">
+                        <button type= "button" style = "font-size: 14px;
+                        color: white; background-color: #333; font-weight:bold" id="projectSaveDirSelect">
                         选择保存地址
                       </button>
                       <div class="form-group">
@@ -136,10 +136,6 @@ export function projectCreate() {
     
     .editor-sidenav{
       background-color: #333;
-    }
-    .saveprojectbuttion {
-      font-size: 25px;
-      color: white;
     }
     body {
       padding: 25px;

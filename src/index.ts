@@ -66,9 +66,13 @@ function darwinTraining(context: vscode.ExtensionContext) {
 						if (fileUri && fileUri[0]) {
 							log.info('Selected file: ' + fileUri[0].fsPath);
 							projectSavedDir = fileUri[0].fsPath;
+							if (currentPanel) {
+								currentPanel.webview.postMessage({ "projectSaveDir": projectSavedDir });
+							}
 						}
 					});
 				}
+
 				log.info(projectSavedDir);
 				if (data.project_info) {
 					// 接收到webview 项目创建向导的消息，创建新的项目
