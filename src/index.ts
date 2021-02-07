@@ -5,6 +5,7 @@ import * as mobx from "mobx";
 import { Extension } from "./Extension";
 import { TreeViewProvider, addSlfFile, addSlfProj, TreeItemNode } from './TreeViewProvider';
 import * as fs from "fs";
+import * as fs_nextra from "fs-nextra";
 import * as path from "path";
 import { projectCreate } from "./projectCreate";
 
@@ -193,8 +194,15 @@ function createTemplateProject(dir: string, projectName: string, projectConfig: 
 					log.error(error);
 				}
 			});
+			fs.mkdir(path.join(dir + '/' + projectName + '/lib'), (error) => {
+				log.info(path.join(dir + '/' + projectName + '/lib'));
+				if (error) {
+					log.error(error);
+				}
+			});
 		}
 	});
+	fs_nextra.copy('/Users/kenny/work/darwin/trainingProjectDemo/lib/snnflow', path.join(dir + '/' + projectName + '/lib/'));
 }
 
 export function deactivate() { }
