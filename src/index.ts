@@ -188,8 +188,14 @@ function createTemplateProject(dir: string, projectName: string, projectConfig: 
 					})
 				}
 			});
-			fs.mkdir(path.join(dir + '/' + projectName + '/resource'), (error) => {
-				log.info(path.join(dir + '/' + projectName + '/resource'));
+			fs.mkdir(path.join(dir + '/' + projectName + '/datasets'), (error) => {
+				log.info(path.join(dir + '/' + projectName + '/datasets'));
+				if (error) {
+					log.error(error);
+				}
+			});
+			fs.mkdir(path.join(dir + '/' + projectName + '/configs'), (error) => {
+				log.info(path.join(dir + '/' + projectName + '/configs'));
 				if (error) {
 					log.error(error);
 				}
