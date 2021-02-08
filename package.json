@@ -95,7 +95,7 @@
 		],
 		"commands": [
 			{
-				"command": "training",
+				"command": "trainingTool",
 				"title": "darwin: training"
 			},
 			{

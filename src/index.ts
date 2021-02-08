@@ -40,7 +40,7 @@ function darwinTraining(context: vscode.ExtensionContext) {
 	let darwinlang_bin_paths: Array<String> = new Array();
 
 	let currentPanel: vscode.WebviewPanel | undefined = undefined;
-	let training = vscode.commands.registerCommand("training", () => {
+	let training = vscode.commands.registerCommand("trainingTool", () => {
 		const columnToShowIn = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
 		treeviewHome.reveal(treeview.data[0]);
 		console.log("helloworld");
@@ -153,7 +153,7 @@ function darwinTraining(context: vscode.ExtensionContext) {
 			}
 		});
 	}));
-	vscode.commands.executeCommand("training");
+	vscode.commands.executeCommand("trainingTool");
 }
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(new Extension(context));
@@ -188,8 +188,14 @@ function createTemplateProject(dir: string, projectName: string, projectConfig: 
 					})
 				}
 			});
-			fs.mkdir(path.join(dir + '/' + projectName + '/resource'), (error) => {
-				log.info(path.join(dir + '/' + projectName + '/resource'));
+			fs.mkdir(path.join(dir + '/' + projectName + '/datasets'), (error) => {
+				log.info(path.join(dir + '/' + projectName + '/datasets'));
+				if (error) {
+					log.error(error);
+				}
+			});
+			fs.mkdir(path.join(dir + '/' + projectName + '/configs'), (error) => {
+				log.info(path.join(dir + '/' + projectName + '/configs'));
 				if (error) {
 					log.error(error);
 				}
@@ -202,6 +208,7 @@ function createTemplateProject(dir: string, projectName: string, projectConfig: 
 			});
 		}
 	});
+	log.info(__dirname);
 	fs_nextra.copy('/Users/kenny/work/darwin/trainingProjectDemo/lib/snnflow', path.join(dir + '/' + projectName + '/lib/'));
 }
 
