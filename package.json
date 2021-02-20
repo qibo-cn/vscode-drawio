@@ -35,6 +35,7 @@
 		"onCommand:treeView-item.import",
 		"onLanguage:${drawio}",
 		"onView:treeView-item",
+		"onCommand:trainingTool",
 		"*"
 	],
 	"repository": {
@@ -42,29 +43,25 @@
 	},
 	"main": "./dist/extension/index",
 	"contributes": {
-		"languages": [
-			{
-				"id": "drawio",
-				"extensions": [
-					".drawio",
-					".dio",
-					".dio.svg",
-					".drawio.svg",
-					".drawio.png",
-					".dio.png"
-				],
-				"aliases": [
-					"Draw.io",
-					"drawio"
-				]
-			}
-		],
-		"customEditors": [
-			{
+		"languages": [{
+			"id": "drawio",
+			"extensions": [
+				".drawio",
+				".dio",
+				".dio.svg",
+				".drawio.svg",
+				".drawio.png",
+				".dio.png"
+			],
+			"aliases": [
+				"Draw.io",
+				"drawio"
+			]
+		}],
+		"customEditors": [{
 				"viewType": "hediet.vscode-drawio",
 				"displayName": "Draw.io (Binary)",
-				"selector": [
-					{
+				"selector": [{
 						"filenamePattern": "*.drawio.png"
 					},
 					{
@@ -76,8 +73,7 @@
 			{
 				"viewType": "hediet.vscode-drawio-text",
 				"displayName": "Draw.io",
-				"selector": [
-					{
+				"selector": [{
 						"filenamePattern": "*.drawio"
 					},
 					{
@@ -93,8 +89,7 @@
 				"priority": "default"
 			}
 		],
-		"commands": [
-			{
+		"commands": [{
 				"command": "trainingTool",
 				"title": "darwin: training"
 			},
@@ -150,27 +145,21 @@
 			}
 		],
 		"views": {
-			"treeView": [
-				{
-					"id": "treeView-item",
-					"name": "",
-					"when": ""
-				}
-			]
+			"treeView": [{
+				"id": "treeView-item",
+				"name": "",
+				"when": ""
+			}]
 		},
-		"viewsWelcome": [
-			{
-				"view": "treeView-item",
-				"contents": "欢迎使用达尔文IDE模型转换器!\n创建新的项目或者加载已有项目\n[创建新项目](command:treeView-item.newproj)\n[加载已有项目](command:treeView-item.proj_load)"
-			}
-		],
-		"keybindings": [
-			{
-				"command": "hediet.vscode-drawio.linkCodeWithSelectedNode",
-				"key": "shift+F3",
-				"when": "!findWidgetVisible"
-			}
-		],
+		"viewsWelcome": [{
+			"view": "treeView-item",
+			"contents": "欢迎使用达尔文IDE模型转换器!\n创建新的项目或者加载已有项目\n[创建新项目](command:treeView-item.newproj)\n[加载已有项目](command:treeView-item.proj_load)"
+		}],
+		"keybindings": [{
+			"command": "hediet.vscode-drawio.linkCodeWithSelectedNode",
+			"key": "shift+F3",
+			"when": "!findWidgetVisible"
+		}],
 		"configuration": {
 			"title": "Draw.io Integration",
 			"properties": {
@@ -187,8 +176,7 @@
 					"description": "When activated, selecting a node will navigate to an associated code section."
 				},
 				"hediet.vscode-drawio.local-storage": {
-					"anyOf": [
-						{
+					"anyOf": [{
 							"type": "object"
 						},
 						{
@@ -258,8 +246,7 @@
 								"description": "The name of the library in the shape overview."
 							}
 						},
-						"anyOf": [
-							{
+						"anyOf": [{
 								"type": "object",
 								"properties": {
 									"url": {
@@ -299,17 +286,15 @@
 				"hediet.vscode-drawio.plugins": {
 					"type": "array",
 					"items": {
-						"anyOf": [
-							{
-								"type": "object",
-								"properties": {
-									"file": {
-										"type": "string",
-										"description": "The file path to the library. Must be absolute. You can use ${workspaceFolder}."
-									}
+						"anyOf": [{
+							"type": "object",
+							"properties": {
+								"file": {
+									"type": "string",
+									"description": "The file path to the library. Must be absolute. You can use ${workspaceFolder}."
 								}
 							}
-						]
+						}]
 					},
 					"default": [],
 					"title": "Plugins",
@@ -356,22 +341,18 @@
 			}
 		},
 		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "treeView",
-					"title": "导航栏",
-					"icon": "src/resources/training.png"
-				}
-			]
+			"activitybar": [{
+				"id": "treeView",
+				"title": "导航栏",
+				"icon": "src/resources/training.png"
+			}]
 		},
 		"menus": {
-			"explorer/context": [
-				{
-					"when": "hediet.vscode-drawio.active",
-					"command": "hediet.vscode-drawio.linkFileWithSelectedNode",
-					"group": "Drawio"
-				}
-			]
+			"explorer/context": [{
+				"when": "hediet.vscode-drawio.active",
+				"command": "hediet.vscode-drawio.linkFileWithSelectedNode",
+				"group": "Drawio"
+			}]
 		}
 	},
 	"scripts": {

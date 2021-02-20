@@ -8,8 +8,9 @@ import * as fs from "fs";
 import * as fs_nextra from "fs-nextra";
 import * as path from "path";
 import { projectCreate } from "./projectCreate";
+import { VsCodeSetting } from "./vscode-utils/VsCodeSetting";
 
-log.setLevel(5);// "silent"
+log.setLevel(0);// "silent"
 
 if (process.env.DEV === "1") {
 	new MobxConsoleLogger(mobx);
@@ -48,7 +49,11 @@ function darwinTraining(context: vscode.ExtensionContext) {
 		if (currentPanel) {
 			currentPanel.reveal(columnToShowIn);
 		} else {
-			currentPanel = vscode.window.createWebviewPanel("darwin2web", "trainings", vscode.ViewColumn.One, { localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath))], enableScripts: true, retainContextWhenHidden: true });
+			log.info(vscode.workspace.workspaceFolders);
+
+			currentPanel = vscode.window.createWebviewPanel("darwin2web", "trainings", vscode.ViewColumn.One, {
+				localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath))], enableScripts: true, retainContextWhenHidden: true
+			});
 			// 主界面由electron 应用启动
 			currentPanel.webview.html = projectCreate();
 			var projectSavedDir = '';
@@ -84,11 +89,6 @@ function darwinTraining(context: vscode.ExtensionContext) {
 					proj_desc_info.project_type = data.project_info.project_type;
 					proj_desc_info.python_type = data.project_info.python_type;
 					proj_desc_info.ann_lib_type = data.project_info.ann_lib_type;
-					addSlfProj(data.project_info.project_name);
-					inMemTreeViewStruct.push(new TreeItemNode(data.project_info.project_name, [new TreeItemNode("数据",
-						[new TreeItemNode("训练数据", []), new TreeItemNode("测试数据", []),
-						new TreeItemNode("测试数据标签", [])]), new TreeItemNode("ANN模型", [])]));
-					treeview.data = inMemTreeViewStruct;
 
 					// TODO 写入项目信息
 					let projectInfo = {
@@ -103,13 +103,23 @@ function darwinTraining(context: vscode.ExtensionContext) {
 					createTemplateProject(projectSavedDir, proj_desc_info.project_name, JSON.stringify(projectInfo));
 					var createdProjectUri = vscode.Uri.file(projectSavedDir + '/' + proj_desc_info.project_name);
 					log.info(createdProjectUri);
-					log.info({ uri: createdProjectUri, name: "newProject" });
-					log.info(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0);
-					vscode.workspace.updateWorkspaceFolders(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, null, { uri: createdProjectUri, name: proj_desc_info.project_name });
-					treeview.refresh();
+					log.info({ uri: createdProjectUri, name: proj_desc_info.project_name });
+					log.info("vscode.workspace.workspacefolder: " + vscode.workspace.workspaceFolders);
+					log.info(vscode.workspace.getConfiguration());
+					vscode.window.showInformationMessage("project create success in " + projectSavedDir + '/' + proj_desc_info.project_name);
+					if (!vscode.workspace.workspaceFolders) {
+						// vscode.workspace.workspaceFolders.length = 1, a default workspace createed before project create.
+						var start = 1;
+						vscode.workspace.updateWorkspaceFolders(start, null, { uri: createdProjectUri, name: proj_desc_info.project_name })
+					} else {
+						vscode.workspace.updateWorkspaceFolders(vscode.workspace.workspaceFolders.length, null, { uri: createdProjectUri, name: proj_desc_info.project_name })
+					}
+					log.info("vscode.workspace.workspacefolder: " + vscode.workspace.workspaceFolders);
 				}
 			})
-		};
+
+		}
+
 
 	});
 	context.subscriptions.push(training);
@@ -153,7 +163,9 @@ function darwinTraining(context: vscode.ExtensionContext) {
 			}
 		});
 	}));
-	vscode.commands.executeCommand("trainingTool");
+	if (!vscode.workspace.workspaceFolders) {
+		vscode.commands.executeCommand("trainingTool");
+	}
 }
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(new Extension(context));
@@ -162,6 +174,7 @@ export function activate(context: vscode.ExtensionContext) {
 };
 
 function createTemplateProject(dir: string, projectName: string, projectConfig: string) {
+	var workSpaceInfo: object = { "folders": [{ "path": projectName }], "settings": { "editor.wordWrap": "on" } };
 	fs.mkdir(path.join(dir + '/' + projectName), (error) => {
 		log.info(path.join(dir + '/' + projectName));
 		if (error) {
@@ -175,6 +188,14 @@ function createTemplateProject(dir: string, projectName: string, projectConfig: 
 					log.info('project create success');
 				}
 			})
+			fs.writeFile(path.join(dir + '/' + 'trainingtool.code-workspace'), JSON.stringify(workSpaceInfo), (error) => {
+				log.info(path.join(dir + '/' + 'trainingtool.code-workspace'));
+				if (error) {
+					log.error(error);
+				} else {
+					log.info('project create success');
+				}
+			});
 			fs.mkdir(path.join(dir + '/' + projectName + '/model'), (error) => {
 				log.info(path.join(dir + '/' + projectName + '/model'));
 				if (error) {
@@ -212,4 +233,21 @@ function createTemplateProject(dir: string, projectName: string, projectConfig: 
 	fs_nextra.copy('/Users/kenny/work/darwin/trainingProjectDemo/lib/snnflow', path.join(dir + '/' + projectName + '/lib/'));
 }
 
+
+function updateConfiguration(cfgName: string, key: string, value: any,
+	configurationTarget: vscode.ConfigurationTarget | boolean) {
+	return new Promise((resolve, reject) => {
+		let cfg = vscode.workspace.getConfiguration(cfgName);
+		if (cfg.has(key)) {
+			cfg.update(key, value, configurationTarget)
+				.then(() => {
+					resolve(true);
+				}).then(undefined, err => {
+					reject(err);
+				});
+		} else {
+			resolve(false);
+		}
+	});
+}
 export function deactivate() { }
