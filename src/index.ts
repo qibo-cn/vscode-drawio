@@ -106,7 +106,8 @@ function darwinTraining(context: vscode.ExtensionContext) {
 					log.info({ uri: createdProjectUri, name: proj_desc_info.project_name });
 					log.info("vscode.workspace.workspacefolder: " + vscode.workspace.workspaceFolders);
 					log.info(vscode.workspace.getConfiguration());
-					vscode.window.showInformationMessage("project create success in " + projectSavedDir + '/' + proj_desc_info.project_name);
+					vscode.window.showInformationMessage("project create success in " + path.join(projectSavedDir, proj_desc_info.project_name));
+					vscode.window.showInformationMessage("please open workspace of " + path.join(projectSavedDir));
 					if (!vscode.workspace.workspaceFolders) {
 						// vscode.workspace.workspaceFolders.length = 1, a default workspace createed before project create.
 						var start = 1;
@@ -223,6 +224,12 @@ function createTemplateProject(dir: string, projectName: string, projectConfig: 
 			});
 			fs.mkdir(path.join(dir + '/' + projectName + '/lib'), (error) => {
 				log.info(path.join(dir + '/' + projectName + '/lib'));
+				if (error) {
+					log.error(error);
+				}
+			});
+			fs.mkdir(path.join(dir + '/' + projectName + '/.vscode'), (error) => {
+				log.info(path.join(dir + '/' + projectName + '/.vscode'));
 				if (error) {
 					log.error(error);
 				}
