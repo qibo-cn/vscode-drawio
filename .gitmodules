@@ -1,3 +1,6 @@
 [submodule "drawio"]
 	path = drawio
 	url = https://github.com/qibo-cn/drawio
+[submodule "lib/snnflow"]
+	path = lib/snnflow
+	url = git@gitlab.zhejianglab.com:ToolChainofD/snnflow.git

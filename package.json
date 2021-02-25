@@ -395,6 +395,7 @@
 		"@types/mithril": "^2.0.4",
 		"copy-webpack-plugin": "^6.1.1",
 		"fs-nextra": "^0.5.1",
+		"getos": "^3.2.1",
 		"js-sha256": "^0.9.0",
 		"jsdom": "^16.2.2",
 		"mithril": "^2.0.4",
