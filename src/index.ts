@@ -9,6 +9,9 @@ import * as fs_nextra from "fs-nextra";
 import * as path from "path";
 import { projectCreate } from "./projectCreate";
 import { VsCodeSetting } from "./vscode-utils/VsCodeSetting";
+import * as childprocess from 'child_process';
+import { stderr, stdout } from 'process';
+import * as getos from 'getos';
 
 log.setLevel(0);// "silent"
 
@@ -237,23 +240,31 @@ function createTemplateProject(dir: string, projectName: string, projectConfig: 
 		}
 	});
 	log.info(__dirname);
-	fs_nextra.copy('/Users/kenny/work/darwin/trainingProjectDemo/lib/snnflow', path.join(dir + '/' + projectName + '/lib/'));
+	updateSnnFlowLib();
+	fs_nextra.copy(path.join(__dirname, '../../', 'lib/snnflow'), path.join(dir + '/' + projectName + '/lib/'));
 }
 
 
-function updateConfiguration(cfgName: string, key: string, value: any,
-	configurationTarget: vscode.ConfigurationTarget | boolean) {
-	return new Promise((resolve, reject) => {
-		let cfg = vscode.workspace.getConfiguration(cfgName);
-		if (cfg.has(key)) {
-			cfg.update(key, value, configurationTarget)
-				.then(() => {
-					resolve(true);
-				}).then(undefined, err => {
-					reject(err);
-				});
+function updateSnnFlowLib() {
+	var osCurr = '';
+	getos((error, os) => {
+		if (error) {
+			console.error(error);
+		}
+		osCurr = os.toString();
+	});
+	childprocess.exec(path.join('git submodule update'), (error, stdout, stderr) => {
+		if (error) {
+			console.error(`${error}`);
 		} else {
-			resolve(false);
+			osCurr === 'win32' ?
+				childprocess.execSync("git checkout win32 && git pull", {
+					cwd: path.join(__dirname, '../../', 'lib/snnflow')
+				}) : childprocess.execSync("git checkout linux && git pull", {
+					cwd: path.join(__dirname, '../../', 'lib/snnflow')
+				});
+			if (stdout) console.log(`${stdout}`);
+			if (stderr) console.error(`${stderr}`);
 		}
 	});
 }

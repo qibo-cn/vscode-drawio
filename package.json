@@ -368,6 +368,7 @@
 		"@actions/exec": "^1.0.4",
 		"@actions/github": "^2.2.0",
 		"@hediet/semver": "^0.2.1",
+		"@types/getos": "^3.0.0",
 		"@types/jsdom": "^16.2.3",
 		"@types/node": "^13.13.5",
 		"@types/vscode": "1.46.0",
